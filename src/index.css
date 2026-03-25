@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Poppins", sans-serif;
+  
+  --color-royal-gold: #D4AF37;
+  --color-gold-bright: #F2D472;
+  
+  /* Elemental Palette */
+  --color-fire-main: #FF4D00;
+  --color-fire-glow: #FF8C00;
+  --color-water-main: #00A3FF;
+  --color-water-glow: #00F0FF;
+  --color-earth-main: #4ADE80;
+  --color-earth-glow: #22C55E;
+  
+  --color-rich-black: #000000;
+  --color-deep-void: #000000;
+}
+
+@layer base {
+  body {
+    @apply bg-rich-black text-white font-sans;
+    background-attachment: fixed;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-black tracking-tight uppercase;
+  }
+}
+
+@layer utilities {
+  .poster-gradient {
+    background: linear-gradient(to bottom, rgba(5,3,2,0) 0%, rgba(5,3,2,0.8) 70%, rgba(5,3,2,1) 100%);
+  }
+
+  .gold-text-glow {
+    color: #D4AF37;
+    text-shadow: 0 0 30px rgba(212, 175, 55, 0.8), 0 0 60px rgba(212, 175, 55, 0.4);
+    font-weight: 900;
+  }
+
+  .fire-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-fire-main to-fire-glow;
+    filter: drop-shadow(0 0 10px rgba(255, 77, 0, 0.5));
+  }
+  
+  .water-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-water-main to-water-glow;
+    filter: drop-shadow(0 0 10px rgba(0, 163, 255, 0.5));
+  }
+  
+  .earth-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-earth-main to-earth-glow;
+    filter: drop-shadow(0 0 10px rgba(45, 90, 39, 0.5));
+  }
+
+  .ember-animation {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ember-animation::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+    opacity: 0.1;
+    pointer-events: none;
+    animation: pulse-opacity 4s ease-in-out infinite;
+  }
+
+  .roots-animation {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .roots-animation::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("https://www.transparenttextures.com/patterns/pinstriped-suit.png");
+    opacity: 0.05;
+    pointer-events: none;
+  }
+
+  .ripple-animation {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ripple-animation::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("https://www.transparenttextures.com/patterns/wavecut.png");
+    opacity: 0.1;
+    pointer-events: none;
+    animation: slide-bg 20s linear infinite;
+  }
+
+  .mist-animation {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mist-animation::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("https://www.transparenttextures.com/patterns/clouds.png");
+    opacity: 0.1;
+    pointer-events: none;
+    animation: drift 30s linear infinite;
+  }
+
+  @keyframes pulse-opacity {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+  }
+
+  @keyframes slide-bg {
+    from { background-position: 0 0; }
+    to { background-position: 100% 100%; }
+  }
+
+  @keyframes drift {
+    from { background-position: 0 0; }
+    to { background-position: 100% 0; }
+  }
+
+  .crown-cursor {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23D4AF37' stroke='%23000' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14'/%3E%3C/svg%3E"), auto;
+  }
+
+  .glass-dark {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  .gold-border-glow {
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1), 0 0 30px rgba(0,0,0,0.5);
+  }
+
+  .atmosphere {
+    background: 
+      radial-gradient(circle at 50% 30%, #3a1510 0%, transparent 60%),
+      radial-gradient(circle at 10% 80%, #FF4D00 0%, transparent 50%);
+    filter: blur(120px);
+    pointer-events: none;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes ripple {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-ripple {
+  animation: ripple 3s linear infinite;
+}

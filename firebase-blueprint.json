@@ -1,0 +1,137 @@
+{
+  "entities": {
+    "Contestant": {
+      "title": "Contestant",
+      "description": "A contestant in the pageant with their vote count.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique ID of the contestant" },
+        "name": { "type": "string", "description": "Name of the contestant" },
+        "voteCount": { "type": "integer", "description": "Total number of votes received" },
+        "element": { "type": "string", "description": "The element they represent" }
+      },
+      "required": ["id", "name", "voteCount", "element"]
+    },
+    "Vote": {
+      "title": "Vote",
+      "description": "A record of a vote cast by a user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user who voted" },
+        "contestantId": { "type": "string", "description": "ID of the contestant voted for" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the vote was cast" }
+      },
+      "required": ["userId", "contestantId", "timestamp"]
+    },
+    "User": {
+      "title": "User",
+      "description": "A user profile record.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "User role" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "TicketPurchase": {
+      "title": "Ticket Purchase",
+      "description": "A request for a ticket purchase via bank transfer.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user" },
+        "userName": { "type": "string", "description": "Name of the user" },
+        "userEmail": { "type": "string", "description": "Email of the user" },
+        "transactionRef": { "type": "string", "description": "Bank transaction reference number" },
+        "items": { 
+          "type": "array", 
+          "items": { "type": "object" },
+          "description": "List of tickets in the cart" 
+        },
+        "totalAmount": { "type": "number", "description": "Total price of the order" },
+        "status": { "type": "string", "enum": ["pending", "verified", "rejected"], "description": "Status of the purchase" },
+        "screenshotUrl": { "type": "string", "description": "URL to the uploaded screenshot (base64 or storage link)" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the purchase was requested" }
+      },
+      "required": ["userId", "userName", "userEmail", "transactionRef", "status", "screenshotUrl", "timestamp"]
+    },
+    "IssuedTicket": {
+      "title": "Issued Ticket",
+      "description": "A verified ticket issued to a user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the owner" },
+        "userName": { "type": "string", "description": "Name on ticket" },
+        "userEmail": { "type": "string", "description": "Email for delivery" },
+        "event": { "type": "string", "description": "Event name" },
+        "tier": { "type": "string", "description": "Ticket tier" },
+        "price": { "type": "string", "description": "Price paid" },
+        "date": { "type": "string", "description": "Event date" },
+        "venue": { "type": "string", "description": "Event venue" },
+        "ticketId": { "type": "string", "description": "Unique ticket ID" },
+        "element": { "type": "string", "description": "Visual element theme" },
+        "scanned": { "type": "boolean", "description": "Whether the ticket has been scanned" },
+        "scannedAt": { "type": "string", "format": "date-time", "description": "When it was scanned" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When it was issued" }
+      },
+      "required": ["userId", "userName", "userEmail", "event", "tier", "ticketId", "element", "scanned", "timestamp"]
+    },
+    "CoronationTicket": {
+      "title": "Coronation Ticket",
+      "description": "A pre-generated ticket code for the Grand Coronation.",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "The unique ticket code" },
+        "status": { "type": "string", "enum": ["available", "assigned", "scanned"], "description": "Status of the code" },
+        "tier": { "type": "string", "description": "Ticket tier (General, VIP, etc.)" },
+        "assignedTo": { "type": "string", "description": "UID of the user it was assigned to" },
+        "assignedEmail": { "type": "string", "description": "Email of the user it was assigned to" },
+        "scannedAt": { "type": "string", "format": "date-time", "description": "When it was scanned" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When it was generated" }
+      },
+      "required": ["code", "status", "tier", "timestamp"]
+    },
+    "AdminEmail": {
+      "title": "Admin Email",
+      "description": "An email address that is granted admin access.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email", "description": "The email address" },
+        "addedBy": { "type": "string", "description": "UID of the admin who added this email" },
+        "addedAt": { "type": "string", "format": "date-time", "description": "When it was added" }
+      },
+      "required": ["email", "addedBy", "addedAt"]
+    }
+  },
+  "firestore": {
+    "/contestants/{contestantId}": {
+      "schema": "Contestant",
+      "description": "Collection of contestants and their vote totals."
+    },
+    "/votes/{voteId}": {
+      "schema": "Vote",
+      "description": "Collection of votes to prevent double voting. voteId is usually userId_contestantId or just userId if one vote per person."
+    },
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profiles and roles."
+    },
+    "/ticketPurchases/{purchaseId}": {
+      "schema": "TicketPurchase",
+      "description": "Collection of ticket purchase requests."
+    },
+    "/issuedTickets/{ticketId}": {
+      "schema": "IssuedTicket",
+      "description": "Collection of verified and issued tickets."
+    },
+    "/coronationTickets/{ticketCode}": {
+      "schema": "CoronationTicket",
+      "description": "Collection of pre-generated ticket codes for the Grand Coronation."
+    },
+    "/adminEmails/{email}": {
+      "schema": "AdminEmail",
+      "description": "Whitelist of emails that are granted admin access."
+    }
+  }
+}

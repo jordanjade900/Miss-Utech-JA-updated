@@ -1,0 +1,171 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: contestants
+    // Fields:
+    //   - id: string (required)
+    //   - name: string (required)
+    //   - voteCount: number (required)
+    //   - element: string (required)
+    //
+    // Collection: votes
+    // Document ID: userId (enforces one vote per user)
+    // Fields:
+    //   - userId: string (required)
+    //   - contestantId: string (required)
+    //   - timestamp: timestamp (required)
+    //
+    // Collection: users
+    // Fields:
+    //   - uid: string (required)
+    //   - email: string (required)
+    //   - role: string (required, 'admin' or 'user')
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (
+          (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
+          (request.auth.token.email == "jordanjade900@gmail.com") ||
+          (exists(/databases/$(database)/documents/adminEmails/$(request.auth.token.email)))
+        );
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+    function isValidUser(data, userId) {
+      return data.keys().hasOnly(['uid', 'email', 'role', 'displayName']) &&
+             data.uid == userId &&
+             isValidEmail(data.email) &&
+             data.role in ['admin', 'user'] &&
+             (!('displayName' in data) || (data.displayName is string && data.displayName.size() < 100));
+    }
+
+    function isValidAdminEmail(data) {
+      return data.keys().hasOnly(['email', 'addedBy', 'addedAt']) &&
+             isValidEmail(data.email) &&
+             data.addedBy == request.auth.uid &&
+             data.addedAt is timestamp;
+    }
+
+    function isValidVote(data) {
+      return data.keys().hasOnly(['userId', 'contestantId', 'timestamp']) &&
+             data.userId == request.auth.uid &&
+             data.contestantId is string && data.contestantId.size() < 50 &&
+             data.timestamp is timestamp;
+    }
+
+    function isValidContestant(data) {
+      return data.keys().hasOnly(['id', 'name', 'voteCount', 'element']) &&
+             data.id is string && data.id.size() < 50 &&
+             data.name is string && data.name.size() < 100 &&
+             data.voteCount is int && data.voteCount >= 0 &&
+             data.element in ['fire', 'water', 'earth', 'air'];
+    }
+
+    function isValidTicketPurchase(data) {
+      return data.keys().hasAll(['userId', 'userName', 'userEmail', 'transactionRef', 'status', 'screenshotUrl', 'timestamp']) &&
+             data.userId == request.auth.uid &&
+             data.userName is string && data.userName.size() < 100 &&
+             isValidEmail(data.userEmail) &&
+             data.transactionRef is string && data.transactionRef.size() < 100 &&
+             data.status == 'pending' &&
+             data.screenshotUrl is string &&
+             data.timestamp is timestamp &&
+             (
+               // Support legacy single-item purchases
+               (data.keys().hasAll(['tierName', 'price']) && data.tierName is string && data.price is string) ||
+               // Support new multi-item purchases
+               (data.keys().hasAll(['items', 'totalAmount']) && data.items is list && data.totalAmount is number)
+             );
+    }
+
+    function isValidIssuedTicket(data) {
+      return data.keys().hasAll(['userId', 'userName', 'userEmail', 'event', 'tier', 'ticketId', 'element', 'scanned', 'timestamp']) &&
+             data.userId is string &&
+             data.ticketId is string &&
+             data.scanned is bool &&
+             data.timestamp is timestamp;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isAuthenticated() && isValidUser(request.resource.data, userId) && 
+                    (request.resource.data.role == 'user' || isAdmin());
+      allow update: if (isOwner(userId) || isAdmin()) && 
+                    isValidUser(request.resource.data, userId) && 
+                    (isAdmin() || request.resource.data.role == resource.data.role);
+    }
+
+    match /contestants/{contestantId} {
+      allow read: if true;
+      allow create: if isAdmin();
+      allow delete: if isAdmin();
+      
+      // Allow users to increment voteCount ONLY if they are also creating a vote record
+      allow update: if isAdmin() || (
+        isAuthenticated() &&
+        isValidContestant(request.resource.data) &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['voteCount']) &&
+        request.resource.data.voteCount == resource.data.voteCount + 1 &&
+        !exists(/databases/$(database)/documents/votes/$(request.auth.uid)) &&
+        getAfter(/databases/$(database)/documents/votes/$(request.auth.uid)) != null &&
+        getAfter(/databases/$(database)/documents/votes/$(request.auth.uid)).data.contestantId == contestantId
+      );
+    }
+
+    match /votes/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && isValidVote(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+
+    match /ticketPurchases/{purchaseId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && (isValidTicketPurchase(request.resource.data) || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+
+    match /issuedTickets/{ticketId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /coronationTickets/{ticketCode} {
+      allow read: if isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /adminEmails/{email} {
+      allow read: if isAdmin();
+      allow create: if isAdmin() && isValidAdminEmail(request.resource.data);
+      allow delete: if isAdmin();
+    }
+  }
+}
