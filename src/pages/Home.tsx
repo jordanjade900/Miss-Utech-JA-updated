@@ -8,7 +8,7 @@ import { RevealOverlay } from '../components/RevealOverlay';
 import { ElementModal, ElementType } from '../components/ElementModal';
 import { ImageModal } from '../components/ImageModal';
 
-const logo = 'https://i.ibb.co/LhRtjQT6/miss-utech-logo.png';
+const logo = 'https://res.cloudinary.com/dad155oxi/image/upload/v1774559377/miss-utech-logo_oy78sf.jpg';
 const elementsGroup = '/group-photo-elements.png';
 const fireDress = '/fire-dress.png';
 const earthDress = '/earth-dress.png';
