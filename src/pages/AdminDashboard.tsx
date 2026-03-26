@@ -12,7 +12,7 @@ import emailjs from '@emailjs/browser';
 import { QRScanner } from '../components/QRScanner';
 
 export const AdminDashboard = () => {
-  const { user, role, isAdmin, login, setIsAdminModeActive, loading: authLoading } = useAuth();
+  const { user, isAdmin, login, loading: authLoading } = useAuth();
   const [purchases, setPurchases] = useState<any[]>([]);
   const [issuedTickets, setIssuedTickets] = useState<any[]>([]);
   const [coronationInventory, setCoronationInventory] = useState<any[]>([]);
@@ -36,13 +36,6 @@ export const AdminDashboard = () => {
   const [adminUsers, setAdminUsers] = useState<any[]>([]);
   const [newAdminEmail, setNewAdminEmail] = useState('');
   const [isAddingAdmin, setIsAddingAdmin] = useState(false);
-
-  // Activate admin mode when landing on /admin if user is an admin
-  useEffect(() => {
-    if (role === 'admin' && !isAdmin) {
-      setIsAdminModeActive(true);
-    }
-  }, [role, isAdmin, setIsAdminModeActive]);
 
   const handleAddAdmin = async () => {
     if (!newAdminEmail || !isValidEmail(newAdminEmail)) {
@@ -655,54 +648,45 @@ export const AdminDashboard = () => {
     );
   }
 
-  if (!user) {
+  if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-rich-black flex items-center justify-center p-6 text-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-md w-full bg-white/5 border border-white/10 p-12 rounded-[2.5rem] space-y-8 backdrop-blur-xl"
-        >
-          <div className="w-20 h-20 bg-royal-gold/10 rounded-full flex items-center justify-center mx-auto text-royal-gold">
-            <Shield size={40} />
+      <div className="min-h-screen bg-rich-black flex items-center justify-center p-6">
+        <div className="text-center space-y-8 max-w-md">
+          <div className="relative inline-block">
+            <Shield size={80} className="text-red-500/20 mx-auto" />
+            <Shield size={40} className="text-red-500 absolute inset-0 m-auto" />
           </div>
-          <div className="space-y-4">
-            <h2 className="text-3xl font-serif text-white tracking-tight">Admin <span className="gold-text-glow">Access</span></h2>
-            <p className="text-white/60 text-sm leading-relaxed uppercase tracking-widest font-medium">Please sign in with an authorized administrator account to continue.</p>
+          <div className="space-y-2">
+            <h1 className="text-4xl font-serif text-white">Access Denied</h1>
+            <p className="text-white/60 uppercase tracking-widest text-[10px] font-black">Administrative privileges required to view this page.</p>
           </div>
-          <button
-            onClick={login}
-            className="w-full py-5 bg-royal-gold text-rich-black font-black text-[10px] tracking-[0.4em] uppercase hover:bg-white transition-all rounded-full"
-          >
-            Sign In with Google
-          </button>
-        </motion.div>
-      </div>
-    );
-  }
-
-  if (role !== 'admin') {
-    return (
-      <div className="min-h-screen bg-rich-black flex items-center justify-center p-6 text-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-md w-full bg-white/5 border border-white/10 p-12 rounded-[2.5rem] space-y-8 backdrop-blur-xl"
-        >
-          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto text-red-500">
-            <XCircle size={40} />
-          </div>
-          <div className="space-y-4">
-            <h2 className="text-3xl font-serif text-white tracking-tight">Access <span className="text-red-500">Denied</span></h2>
-            <p className="text-white/60 text-sm leading-relaxed uppercase tracking-widest font-medium">Your account does not have administrator privileges.</p>
-          </div>
-          <button
-            onClick={() => window.location.href = '/'}
-            className="w-full py-5 bg-white/10 text-white font-black text-[10px] tracking-[0.4em] uppercase hover:bg-white/20 transition-all rounded-full"
-          >
-            Return Home
-          </button>
-        </motion.div>
+          
+          {!user ? (
+            <div className="pt-4">
+              <button
+                onClick={login}
+                className="w-full px-8 py-4 bg-royal-gold text-rich-black font-black text-xs tracking-[0.3em] uppercase hover:bg-white transition-colors"
+              >
+                Login as Admin
+              </button>
+              <p className="mt-4 text-[10px] text-white/40 uppercase tracking-widest">
+                Please sign in with an authorized administrator account.
+              </p>
+            </div>
+          ) : (
+            <div className="pt-4">
+              <p className="text-royal-gold text-xs font-bold tracking-widest mb-4">
+                Logged in as: {user.email}
+              </p>
+              <button
+                onClick={() => window.location.href = '/'}
+                className="w-full px-8 py-4 border border-white/10 text-white font-black text-xs tracking-[0.3em] uppercase hover:bg-white/5 transition-colors"
+              >
+                Return to Home
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     );
   }

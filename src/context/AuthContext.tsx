@@ -34,11 +34,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const isAdminEmail = firebaseUser.email === 'jordanjade900@gmail.com';
             let finalRole: 'admin' | 'user' = isAdminEmail ? 'admin' : 'user';
             
+            if (isAdminEmail) {
+              setIsAdminModeActive(true);
+            }
+
             if (!isAdminEmail && firebaseUser.email) {
               const adminEmailRef = doc(db, 'adminEmails', firebaseUser.email);
               const adminEmailDoc = await getDoc(adminEmailRef);
               if (adminEmailDoc.exists()) {
                 finalRole = 'admin';
+                setIsAdminModeActive(true);
               }
             }
 
@@ -55,12 +60,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const currentRole = userData?.role || 'user';
             setRole(currentRole);
             
+            // Also check if they should have admin mode active
+            if (currentRole === 'admin' && (firebaseUser.email === 'jordanjade900@gmail.com' || userData?.isAdminModeActive)) {
+               // Wait, we don't store isAdminModeActive in DB usually.
+               // But for the primary admin, we should enable it.
+               if (firebaseUser.email === 'jordanjade900@gmail.com') {
+                 setIsAdminModeActive(true);
+               }
+            }
+            
             // Re-check adminEmails just in case their role in users is stale
             if (currentRole !== 'admin' && firebaseUser.email) {
               const adminEmailRef = doc(db, 'adminEmails', firebaseUser.email);
               const adminEmailDoc = await getDoc(adminEmailRef);
               if (adminEmailDoc.exists()) {
                 setRole('admin');
+                setIsAdminModeActive(true);
                 // Update their role in users collection
                 await updateDoc(userRef, { role: 'admin' });
               }
@@ -85,6 +100,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     provider.setCustomParameters({ prompt: 'select_account' });
     try {
       const result = await signInWithPopup(auth, provider);
+      if (result.user.email === 'jordanjade900@gmail.com') {
+        setIsAdminModeActive(true);
+      }
       return result.user;
     } catch (error) {
       console.error("Login failed:", error);
