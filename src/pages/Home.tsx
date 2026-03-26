@@ -47,13 +47,6 @@ export const Home = () => {
               src="/miss-utech-logo.png" 
               alt="Miss UTech Logo" 
               className="w-full h-auto block mx-auto"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                // If local logo fails, try the direct postimg link first
-                if (!target.src.includes('postimg.cc')) {
-                  target.src = "https://i.postimg.cc/MT2JpNKG/image.png";
-                }
-              }}
             />
           </motion.div>
         </div>
@@ -221,12 +214,6 @@ export const Home = () => {
               src="/group-photo-elements.png" 
               alt="The Elements" 
               className="w-full h-[400px] md:h-[600px] object-cover transition-transform duration-700 group-hover:scale-110"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                if (!target.src.includes('postimg.cc')) {
-                  target.src = "https://i.postimg.cc/mD8ZfL0p/image.png";
-                }
-              }}
             />
             <div className="absolute bottom-12 left-12 z-20 max-w-2xl">
               <div className="flex items-center gap-4 text-royal-gold mb-4">
@@ -257,12 +244,6 @@ export const Home = () => {
                   src="/fire-dress.png" 
                   alt="Fire" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    if (!target.src.includes('postimg.cc')) {
-                      target.src = "https://i.postimg.cc/q7SjG8mH/image.png";
-                    }
-                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -306,12 +287,6 @@ export const Home = () => {
                   src="/earth-dress.png" 
                   alt="Earth" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    if (!target.src.includes('postimg.cc')) {
-                      target.src = "https://i.postimg.cc/vB0S1G7L/image.png";
-                    }
-                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -355,12 +330,6 @@ export const Home = () => {
                   src="/water-dress.png" 
                   alt="Water" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    if (!target.src.includes('postimg.cc')) {
-                      target.src = "https://i.postimg.cc/85z1X2t7/image.png";
-                    }
-                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -404,12 +373,6 @@ export const Home = () => {
                   src="/air-dress.png" 
                   alt="Air" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    if (!target.src.includes('postimg.cc')) {
-                      target.src = "https://i.postimg.cc/MT2JpNKG/image.png";
-                    }
-                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>

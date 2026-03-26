@@ -112,21 +112,6 @@ export const ElementModal: React.FC<ElementModalProps> = ({ isOpen, onClose, typ
                   src={content.image} 
                   alt={content.title}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    if (!target.src.includes('postimg.cc')) {
-                      const fallbacks: Record<string, string> = {
-                        '/fire-dress.png': 'https://i.postimg.cc/q7SjG8mH/image.png',
-                        '/earth-dress.png': 'https://i.postimg.cc/vB0S1G7L/image.png',
-                        '/water-dress.png': 'https://i.postimg.cc/85z1X2t7/image.png',
-                        '/air-dress.png': 'https://i.postimg.cc/MT2JpNKG/image.png'
-                      };
-                      const path = content.image;
-                      if (fallbacks[path]) {
-                        target.src = fallbacks[path];
-                      }
-                    }
-                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-rich-black via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-rich-black" />
               </div>
