@@ -332,11 +332,10 @@ export const Contestants = ({ hideHeader = false }: { hideHeader?: boolean }) =>
                 src="/miss-utech-group.jpeg" 
                 alt="The Essence of Royalty" 
                 className="w-full h-auto border border-white/10 relative z-10 grayscale group-hover:grayscale-0 transition-all duration-700 rounded-2xl"
-                referrerPolicy="no-referrer"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  if (target.src.includes('miss-utech-group.jpeg')) {
-                    target.src = "https://i0.wp.com/i.postimg.cc/mD8ZfL0p/image.png";
+                  if (!target.src.includes('postimg.cc')) {
+                    target.src = "https://i.postimg.cc/mD8ZfL0p/image.png";
                   }
                 }}
               />

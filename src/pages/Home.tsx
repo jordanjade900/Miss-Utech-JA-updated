@@ -47,18 +47,11 @@ export const Home = () => {
               src="/miss-utech-logo.png" 
               alt="Miss UTech Logo" 
               className="w-full h-auto block mx-auto"
-              referrerPolicy="no-referrer"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                const currentSrc = target.src;
-                
-                // If local logo fails, try the proxy
-                if (currentSrc.includes('miss-utech-logo.png')) {
-                  target.src = "https://i0.wp.com/i.postimg.cc/MT2JpNKG/image.png";
-                } else if (currentSrc.includes('MT2JpNKG') && currentSrc.includes('i0.wp.com')) {
-                  target.src = "https://i0.wp.com/i.postimg.cc/85z1X2t7/image.png";
-                } else if (currentSrc.includes('85z1X2t7') && currentSrc.includes('i0.wp.com')) {
-                  target.src = "https://wsrv.nl/?url=https://i.postimg.cc/MT2JpNKG/image.png&w=1200&q=90";
+                // If local logo fails, try the direct postimg link first
+                if (!target.src.includes('postimg.cc')) {
+                  target.src = "https://i.postimg.cc/MT2JpNKG/image.png";
                 }
               }}
             />
@@ -228,11 +221,10 @@ export const Home = () => {
               src="/group-photo-elements.png" 
               alt="The Elements" 
               className="w-full h-[400px] md:h-[600px] object-cover transition-transform duration-700 group-hover:scale-110"
-              referrerPolicy="no-referrer"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                if (target.src.includes('group-photo-elements.png')) {
-                  target.src = "https://i0.wp.com/i.postimg.cc/mD8ZfL0p/image.png";
+                if (!target.src.includes('postimg.cc')) {
+                  target.src = "https://i.postimg.cc/mD8ZfL0p/image.png";
                 }
               }}
             />
@@ -265,11 +257,10 @@ export const Home = () => {
                   src="/fire-dress.png" 
                   alt="Fire" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  referrerPolicy="no-referrer"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    if (target.src.includes('fire-dress.png')) {
-                      target.src = "https://i0.wp.com/i.postimg.cc/q7SjG8mH/image.png";
+                    if (!target.src.includes('postimg.cc')) {
+                      target.src = "https://i.postimg.cc/q7SjG8mH/image.png";
                     }
                   }}
                 />
@@ -315,11 +306,10 @@ export const Home = () => {
                   src="/earth-dress.png" 
                   alt="Earth" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  referrerPolicy="no-referrer"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    if (target.src.includes('earth-dress.png')) {
-                      target.src = "https://i0.wp.com/i.postimg.cc/vB0S1G7L/image.png";
+                    if (!target.src.includes('postimg.cc')) {
+                      target.src = "https://i.postimg.cc/vB0S1G7L/image.png";
                     }
                   }}
                 />
@@ -365,11 +355,10 @@ export const Home = () => {
                   src="/water-dress.png" 
                   alt="Water" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  referrerPolicy="no-referrer"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    if (target.src.includes('water-dress.png')) {
-                      target.src = "https://i0.wp.com/i.postimg.cc/85z1X2t7/image.png";
+                    if (!target.src.includes('postimg.cc')) {
+                      target.src = "https://i.postimg.cc/85z1X2t7/image.png";
                     }
                   }}
                 />
@@ -415,11 +404,10 @@ export const Home = () => {
                   src="/air-dress.png" 
                   alt="Air" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  referrerPolicy="no-referrer"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    if (target.src.includes('air-dress.png')) {
-                      target.src = "https://i0.wp.com/i.postimg.cc/MT2JpNKG/image.png";
+                    if (!target.src.includes('postimg.cc')) {
+                      target.src = "https://i.postimg.cc/MT2JpNKG/image.png";
                     }
                   }}
                 />
