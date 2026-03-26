@@ -8,6 +8,13 @@ import { RevealOverlay } from '../components/RevealOverlay';
 import { ElementModal, ElementType } from '../components/ElementModal';
 import { ImageModal } from '../components/ImageModal';
 
+import logo from '../assets/miss-utech-logo.png';
+import elementsGroup from '../assets/group-photo-elements.png';
+import fireDress from '../assets/fire-dress.png';
+import earthDress from '../assets/earth-dress.png';
+import waterDress from '../assets/water-dress.png';
+import airDress from '../assets/air-dress.png';
+
 import { Events } from './Events';
 import { Contestants } from './Contestants';
 import { TicketsContact } from './TicketsContact';
@@ -44,7 +51,7 @@ export const Home = () => {
             className="w-full max-w-5xl"
           >
             <img 
-              src="/miss-utech-logo.png" 
+              src={logo} 
               alt="Miss UTech Logo" 
               className="w-full h-auto block mx-auto"
             />
@@ -206,12 +213,12 @@ export const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            onClick={() => setFullscreenImage('/group-photo-elements.png')}
+            onClick={() => setFullscreenImage(elementsGroup)}
             className="mb-24 relative rounded-[3rem] overflow-hidden group cursor-zoom-in"
           >
             <div className="absolute inset-0 bg-gradient-to-t from-rich-black via-rich-black/40 to-transparent z-10" />
             <img 
-              src="/group-photo-elements.png" 
+              src={elementsGroup} 
               alt="The Elements" 
               className="w-full h-[400px] md:h-[600px] object-cover transition-transform duration-700 group-hover:scale-110"
             />
@@ -241,7 +248,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/fire-dress.png" 
+                  src={fireDress} 
                   alt="Fire" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                 />
@@ -284,7 +291,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/earth-dress.png" 
+                  src={earthDress} 
                   alt="Earth" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                 />
@@ -327,7 +334,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/water-dress.png" 
+                  src={waterDress} 
                   alt="Water" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                 />
@@ -370,7 +377,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/air-dress.png" 
+                  src={airDress} 
                   alt="Air" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                 />
