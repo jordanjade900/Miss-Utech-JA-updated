@@ -12,13 +12,6 @@ import { Events } from './Events';
 import { Contestants } from './Contestants';
 import { TicketsContact } from './TicketsContact';
 
-import logo from '/miss-utech-logo.png';
-import groupPhoto from '/group-photo-elements.png';
-import fireDress from '/fire-dress.png';
-import earthDress from '/earth-dress.png';
-import waterDress from '/water-dress.png';
-import airDress from '/air-dress.png';
-
 export const Home = () => {
   const [selectedElement, setSelectedElement] = useState<ElementType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,7 +44,7 @@ export const Home = () => {
             className="w-full max-w-5xl"
           >
             <img 
-              src={logo} 
+              src="/miss-utech-logo.png" 
               alt="Miss UTech Logo" 
               className="w-full h-auto block mx-auto"
               onError={(e) => {
@@ -222,7 +215,7 @@ export const Home = () => {
           >
             <div className="absolute inset-0 bg-gradient-to-t from-rich-black via-rich-black/40 to-transparent z-10" />
             <img 
-              src={groupPhoto} 
+              src="/group-photo-elements.png" 
               alt="The Elements" 
               className="w-full h-[400px] md:h-[600px] object-cover transition-transform duration-700 group-hover:scale-110"
               onError={(e) => {
@@ -256,7 +249,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src={fireDress} 
+                  src="/fire-dress.png" 
                   alt="Fire" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   onError={(e) => {
@@ -303,7 +296,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src={earthDress} 
+                  src="/earth-dress.png" 
                   alt="Earth" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   onError={(e) => {
@@ -350,7 +343,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src={waterDress} 
+                  src="/water-dress.png" 
                   alt="Water" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   onError={(e) => {
@@ -397,7 +390,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src={airDress} 
+                  src="/air-dress.png" 
                   alt="Air" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   onError={(e) => {
