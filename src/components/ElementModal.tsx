@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Zap, Droplets, Mountain, Wind, Sparkles, Shirt } from 'lucide-react';
 import { ImageModal } from './ImageModal';
 
-const fireDress = '/fire-dress.png';
-const earthDress = '/earth-dress.png';
-const waterDress = '/water-dress.png';
-const airDress = '/air-dress.png';
+const fireDress = 'https://i0.wp.com/i.postimg.cc/q7SjG8mH/image.png';
+const earthDress = 'https://i0.wp.com/i.postimg.cc/vB0S1G7L/image.png';
+const waterDress = 'https://i0.wp.com/i.postimg.cc/85z1X2t7/image.png';
+const airDress = 'https://i0.wp.com/i.postimg.cc/MT2JpNKG/image.png';
 
 export type ElementType = 'fire' | 'earth' | 'water' | 'air';
 
