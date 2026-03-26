@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Zap, Droplets, Mountain, Wind, Sparkles, Shirt } from 'lucide-react';
 import { ImageModal } from './ImageModal';
 
-import fireDress from '../assets/fire-dress.png';
-import earthDress from '../assets/earth-dress.png';
-import waterDress from '../assets/water-dress.png';
-import airDress from '../assets/air-dress.png';
+const fireDress = '/fire-dress.png';
+const earthDress = '/earth-dress.png';
+const waterDress = '/water-dress.png';
+const airDress = '/air-dress.png';
 
 export type ElementType = 'fire' | 'earth' | 'water' | 'air';
 
@@ -117,6 +117,7 @@ export const ElementModal: React.FC<ElementModalProps> = ({ isOpen, onClose, typ
                   src={content.image} 
                   alt={content.title}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-rich-black via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-rich-black" />
               </div>

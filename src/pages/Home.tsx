@@ -8,12 +8,12 @@ import { RevealOverlay } from '../components/RevealOverlay';
 import { ElementModal, ElementType } from '../components/ElementModal';
 import { ImageModal } from '../components/ImageModal';
 
-import logo from '../assets/miss-utech-logo.png';
-import elementsGroup from '../assets/group-photo-elements.png';
-import fireDress from '../assets/fire-dress.png';
-import earthDress from '../assets/earth-dress.png';
-import waterDress from '../assets/water-dress.png';
-import airDress from '../assets/air-dress.png';
+const logo = '/miss-utech-logo.png';
+const elementsGroup = '/group-photo-elements.png';
+const fireDress = '/fire-dress.png';
+const earthDress = '/earth-dress.png';
+const waterDress = '/water-dress.png';
+const airDress = '/air-dress.png';
 
 import { Events } from './Events';
 import { Contestants } from './Contestants';
@@ -54,6 +54,7 @@ export const Home = () => {
               src={logo} 
               alt="Miss UTech Logo" 
               className="w-full h-auto block mx-auto"
+              referrerPolicy="no-referrer"
             />
           </motion.div>
         </div>
@@ -221,6 +222,7 @@ export const Home = () => {
               src={elementsGroup} 
               alt="The Elements" 
               className="w-full h-[400px] md:h-[600px] object-cover transition-transform duration-700 group-hover:scale-110"
+              referrerPolicy="no-referrer"
             />
             <div className="absolute bottom-12 left-12 z-20 max-w-2xl">
               <div className="flex items-center gap-4 text-royal-gold mb-4">
@@ -251,6 +253,7 @@ export const Home = () => {
                   src={fireDress} 
                   alt="Fire" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
+                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -294,6 +297,7 @@ export const Home = () => {
                   src={earthDress} 
                   alt="Earth" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
+                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -337,6 +341,7 @@ export const Home = () => {
                   src={waterDress} 
                   alt="Water" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
+                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -380,6 +385,7 @@ export const Home = () => {
                   src={airDress} 
                   alt="Air" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
+                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>

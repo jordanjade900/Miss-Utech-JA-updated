@@ -11,7 +11,7 @@ import { useAuth } from '../hooks/useAuth';
 import { handleFirestoreError, OperationType } from '../lib/firestore-errors';
 import { ImageModal } from '../components/ImageModal';
 
-import groupPhotoFull from '../assets/miss-utech-group.jpeg';
+const groupPhotoFull = '/miss-utech-group.jpeg';
 
 interface Contestant {
   id: string;
@@ -334,6 +334,7 @@ export const Contestants = ({ hideHeader = false }: { hideHeader?: boolean }) =>
                 src={groupPhotoFull} 
                 alt="The Essence of Royalty" 
                 className="w-full h-auto border border-white/10 relative z-10 grayscale group-hover:grayscale-0 transition-all duration-700 rounded-2xl"
+                referrerPolicy="no-referrer"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
                   e.currentTarget.src = groupPhotoFull;
