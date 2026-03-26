@@ -3,11 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Zap, Droplets, Mountain, Wind, Sparkles, Shirt } from 'lucide-react';
 import { ImageModal } from './ImageModal';
 
-import fireDress from '/fire-dress.png';
-import earthDress from '/earth-dress.png';
-import waterDress from '/water-dress.png';
-import airDress from '/air-dress.png';
-
 export type ElementType = 'fire' | 'earth' | 'water' | 'air';
 
 interface ElementContent {
@@ -30,7 +25,7 @@ const elementData: Record<ElementType, ElementContent> = {
     essence: ['Courage & Bravery', 'Creative Transformation', 'Radiant Energy'],
     dresswear: 'Expect bold reds, vibrant oranges, and shimmering golds. Look for fabrics that catch the light like dancing embers—sequins, metallic silks, and sharp, dramatic silhouettes that command immediate attention.',
     animationClass: 'ember-animation',
-    image: fireDress
+    image: "/fire-dress.png"
   },
   earth: {
     title: 'EARTH',
@@ -40,7 +35,7 @@ const elementData: Record<ElementType, ElementContent> = {
     essence: ['Resilience & Growth', 'Cultural Heritage', 'Unwavering Stability'],
     dresswear: 'Deep forest greens, rich terracottas, and organic browns. Textures are key—think intricate embroidery, natural linens, and structured, regal gowns that feel as if they are part of the landscape itself.',
     animationClass: 'roots-animation',
-    image: earthDress
+    image: "/earth-dress.png"
   },
   water: {
     title: 'WATER',
@@ -50,7 +45,7 @@ const elementData: Record<ElementType, ElementContent> = {
     essence: ['Intuitive Wisdom', 'Purity of Spirit', 'Graceful Adaptability'],
     dresswear: 'Shimmering blues, deep teals, and liquid silvers. Flowing silks, chiffons, and organzas that move like waves. Expect iridescent beadwork and soft, draped necklines that evoke the serenity of the ocean.',
     animationClass: 'ripple-animation',
-    image: waterDress
+    image: "/water-dress.png"
   },
   air: {
     title: 'AIR',
@@ -60,7 +55,7 @@ const elementData: Record<ElementType, ElementContent> = {
     essence: ['Clarity of Vision', 'Intellectual Freedom', 'Ethereal Elegance'],
     dresswear: 'Ethereal whites, pale lavenders, and sky blues. Light-as-air fabrics like tulle and fine lace. Look for floating veils, delicate sheer panels, and silhouettes that seem to defy gravity.',
     animationClass: 'mist-animation',
-    image: airDress
+    image: "/air-dress.png"
   }
 };
 
@@ -117,18 +112,6 @@ export const ElementModal: React.FC<ElementModalProps> = ({ isOpen, onClose, typ
                   src={content.image} 
                   alt={content.title}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    const fallbacks: Record<string, string> = {
-                      [fireDress]: 'https://i.postimg.cc/0jXmXmX8/fire-dress.png',
-                      [earthDress]: 'https://i.postimg.cc/X7XmXmX8/earth-dress.png',
-                      [waterDress]: 'https://i.postimg.cc/Y8XmXmX8/water-dress.png',
-                      [airDress]: 'https://i.postimg.cc/Z9XmXmX8/air-dress.png'
-                    };
-                    if (fallbacks[content.image]) {
-                      e.currentTarget.src = fallbacks[content.image];
-                    }
-                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-rich-black via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-rich-black" />
               </div>

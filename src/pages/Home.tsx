@@ -47,10 +47,6 @@ export const Home = () => {
               src="/miss-utech-logo.png" 
               alt="Miss UTech Logo" 
               className="w-full h-auto block mx-auto"
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src = "https://i.postimg.cc/85M2V9tB/miss-utech-logo.png";
-              }}
             />
           </motion.div>
         </div>
@@ -218,10 +214,6 @@ export const Home = () => {
               src="/group-photo-elements.png" 
               alt="The Elements" 
               className="w-full h-[400px] md:h-[600px] object-cover transition-transform duration-700 group-hover:scale-110"
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src = "https://i.postimg.cc/9Fm8XmX8/group-photo-elements.png";
-              }}
             />
             <div className="absolute bottom-12 left-12 z-20 max-w-2xl">
               <div className="flex items-center gap-4 text-royal-gold mb-4">
@@ -252,10 +244,6 @@ export const Home = () => {
                   src="/fire-dress.png" 
                   alt="Fire" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = "https://i.postimg.cc/0jXmXmX8/fire-dress.png";
-                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -299,10 +287,6 @@ export const Home = () => {
                   src="/earth-dress.png" 
                   alt="Earth" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = "https://i.postimg.cc/X7XmXmX8/earth-dress.png";
-                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -346,10 +330,6 @@ export const Home = () => {
                   src="/water-dress.png" 
                   alt="Water" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = "https://i.postimg.cc/Y8XmXmX8/water-dress.png";
-                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -393,10 +373,6 @@ export const Home = () => {
                   src="/air-dress.png" 
                   alt="Air" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = "https://i.postimg.cc/Z9XmXmX8/air-dress.png";
-                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
