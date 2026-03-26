@@ -38,8 +38,8 @@ const PageWrapper = ({ children, title }: { children: React.ReactNode, title: st
 };
 
 import { ErrorBoundary } from './components/ErrorBoundary';
-
 import { RevealOverlay } from './components/RevealOverlay';
+import { AdminTaskbar } from './components/AdminTaskbar';
 
 export default function App() {
   const { user, isAdmin, loading } = useAuth();
@@ -57,6 +57,7 @@ export default function App() {
 
   if (isAdmin) {
     navItems.push({ name: 'My Tickets', url: '/my-tickets', icon: UserCircle });
+    navItems.push({ name: 'Admin', url: '/admin', icon: Shield });
   }
 
   return (
@@ -65,6 +66,7 @@ export default function App() {
       <RevealOverlay>
         <div className="min-h-screen flex flex-col crown-cursor">
           <NavBar items={navItems} />
+          {isAdmin && <AdminTaskbar />}
           <main className="flex-grow">
             <AnimatePresence mode="wait">
               <Routes location={location} key={location.pathname}>

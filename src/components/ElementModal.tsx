@@ -3,6 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Zap, Droplets, Mountain, Wind, Sparkles, Shirt } from 'lucide-react';
 import { ImageModal } from './ImageModal';
 
+const fireDress = '/fire-dress.png';
+const earthDress = '/earth-dress.png';
+const waterDress = '/water-dress.png';
+const airDress = '/air-dress.png';
+
 export type ElementType = 'fire' | 'earth' | 'water' | 'air';
 
 interface ElementContent {
@@ -25,7 +30,7 @@ const elementData: Record<ElementType, ElementContent> = {
     essence: ['Courage & Bravery', 'Creative Transformation', 'Radiant Energy'],
     dresswear: 'Expect bold reds, vibrant oranges, and shimmering golds. Look for fabrics that catch the light like dancing embers—sequins, metallic silks, and sharp, dramatic silhouettes that command immediate attention.',
     animationClass: 'ember-animation',
-    image: '/Fire%20Dress.png'
+    image: fireDress
   },
   earth: {
     title: 'EARTH',
@@ -35,7 +40,7 @@ const elementData: Record<ElementType, ElementContent> = {
     essence: ['Resilience & Growth', 'Cultural Heritage', 'Unwavering Stability'],
     dresswear: 'Deep forest greens, rich terracottas, and organic browns. Textures are key—think intricate embroidery, natural linens, and structured, regal gowns that feel as if they are part of the landscape itself.',
     animationClass: 'roots-animation',
-    image: '/Earth%20Dress.png'
+    image: earthDress
   },
   water: {
     title: 'WATER',
@@ -45,7 +50,7 @@ const elementData: Record<ElementType, ElementContent> = {
     essence: ['Intuitive Wisdom', 'Purity of Spirit', 'Graceful Adaptability'],
     dresswear: 'Shimmering blues, deep teals, and liquid silvers. Flowing silks, chiffons, and organzas that move like waves. Expect iridescent beadwork and soft, draped necklines that evoke the serenity of the ocean.',
     animationClass: 'ripple-animation',
-    image: '/Water%20dress.png'
+    image: waterDress
   },
   air: {
     title: 'AIR',
@@ -55,7 +60,7 @@ const elementData: Record<ElementType, ElementContent> = {
     essence: ['Clarity of Vision', 'Intellectual Freedom', 'Ethereal Elegance'],
     dresswear: 'Ethereal whites, pale lavenders, and sky blues. Light-as-air fabrics like tulle and fine lace. Look for floating veils, delicate sheer panels, and silhouettes that seem to defy gravity.',
     animationClass: 'mist-animation',
-    image: '/Air%20Dress.png'
+    image: airDress
   }
 };
 

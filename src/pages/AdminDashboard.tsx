@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
 import { collection, query, onSnapshot, doc, updateDoc, addDoc, serverTimestamp, deleteDoc, getDoc, writeBatch, limit, where, getDocs, setDoc } from 'firebase/firestore';
@@ -11,17 +12,37 @@ import emailjs from '@emailjs/browser';
 import { QRScanner } from '../components/QRScanner';
 
 export const AdminDashboard = () => {
-  const { user, isAdmin, loading: authLoading } = useAuth();
+  const { user, role, isAdmin, login, setIsAdminModeActive, loading: authLoading } = useAuth();
   const [purchases, setPurchases] = useState<any[]>([]);
   const [issuedTickets, setIssuedTickets] = useState<any[]>([]);
   const [coronationInventory, setCoronationInventory] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'pending' | 'issued' | 'scanner' | 'inventory' | 'manual' | 'access'>('pending');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState<'pending' | 'issued' | 'scanner' | 'inventory' | 'manual' | 'access'>((searchParams.get('tab') as any) || 'pending');
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab && ['pending', 'issued', 'scanner', 'inventory', 'manual', 'access'].includes(tab)) {
+      setActiveTab(tab as any);
+    }
+  }, [searchParams]);
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab as any);
+    setSearchParams({ tab });
+  };
+
   const [adminEmails, setAdminEmails] = useState<any[]>([]);
   const [adminUsers, setAdminUsers] = useState<any[]>([]);
   const [newAdminEmail, setNewAdminEmail] = useState('');
   const [isAddingAdmin, setIsAddingAdmin] = useState(false);
+
+  // Activate admin mode when landing on /admin if user is an admin
+  useEffect(() => {
+    if (role === 'admin' && !isAdmin) {
+      setIsAdminModeActive(true);
+    }
+  }, [role, isAdmin, setIsAdminModeActive]);
 
   const handleAddAdmin = async () => {
     if (!newAdminEmail || !isValidEmail(newAdminEmail)) {
@@ -634,14 +655,54 @@ export const AdminDashboard = () => {
     );
   }
 
-  if (!isAdmin) {
+  if (!user) {
     return (
-      <div className="min-h-screen bg-rich-black flex items-center justify-center p-6">
-        <div className="text-center space-y-6">
-          <Shield size={64} className="text-red-500 mx-auto" />
-          <h1 className="text-4xl font-serif text-white">Access Denied</h1>
-          <p className="text-white uppercase tracking-widest text-xs">Admin privileges required.</p>
-        </div>
+      <div className="min-h-screen bg-rich-black flex items-center justify-center p-6 text-center">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-md w-full bg-white/5 border border-white/10 p-12 rounded-[2.5rem] space-y-8 backdrop-blur-xl"
+        >
+          <div className="w-20 h-20 bg-royal-gold/10 rounded-full flex items-center justify-center mx-auto text-royal-gold">
+            <Shield size={40} />
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-3xl font-serif text-white tracking-tight">Admin <span className="gold-text-glow">Access</span></h2>
+            <p className="text-white/60 text-sm leading-relaxed uppercase tracking-widest font-medium">Please sign in with an authorized administrator account to continue.</p>
+          </div>
+          <button
+            onClick={login}
+            className="w-full py-5 bg-royal-gold text-rich-black font-black text-[10px] tracking-[0.4em] uppercase hover:bg-white transition-all rounded-full"
+          >
+            Sign In with Google
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  if (role !== 'admin') {
+    return (
+      <div className="min-h-screen bg-rich-black flex items-center justify-center p-6 text-center">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-md w-full bg-white/5 border border-white/10 p-12 rounded-[2.5rem] space-y-8 backdrop-blur-xl"
+        >
+          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto text-red-500">
+            <XCircle size={40} />
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-3xl font-serif text-white tracking-tight">Access <span className="text-red-500">Denied</span></h2>
+            <p className="text-white/60 text-sm leading-relaxed uppercase tracking-widest font-medium">Your account does not have administrator privileges.</p>
+          </div>
+          <button
+            onClick={() => window.location.href = '/'}
+            className="w-full py-5 bg-white/10 text-white font-black text-[10px] tracking-[0.4em] uppercase hover:bg-white/20 transition-all rounded-full"
+          >
+            Return Home
+          </button>
+        </motion.div>
       </div>
     );
   }
@@ -670,74 +731,30 @@ export const AdminDashboard = () => {
               {isCreatingTest ? 'Creating...' : 'Create Test Purchase'}
             </button>
 
-            <div className="relative">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="flex items-center gap-4 px-8 py-4 bg-white/5 border border-white/10 rounded-full text-xs font-black uppercase tracking-[0.2em] text-white hover:bg-white/10 transition-all min-w-[240px] justify-between"
-              >
-                <div className="flex items-center gap-3">
-                  {(() => {
-                    const tabs = [
-                      { id: 'pending', label: 'Pending', icon: Clock },
-                      { id: 'issued', label: 'Issued', icon: Ticket },
-                      { id: 'manual', label: 'Manual Issue', icon: Plus },
-                      { id: 'scanner', label: 'Scanner', icon: QrCode },
-                      { id: 'inventory', label: 'Inventory', icon: Database },
-                      { id: 'access', label: 'Access', icon: Shield }
-                    ];
-                    const active = tabs.find(t => t.id === activeTab);
-                    const Icon = active?.icon || Clock;
-                    return (
-                      <>
-                        <Icon size={16} className="text-royal-gold" />
-                        <span>{active?.label}</span>
-                      </>
-                    );
-                  })()}
-                </div>
-                <ChevronDown size={16} className={cn("transition-transform duration-300", isMenuOpen && "rotate-180")} />
-              </button>
-
-              <AnimatePresence>
-                {isMenuOpen && (
-                  <>
-                    <div 
-                      className="fixed inset-0 z-40" 
-                      onClick={() => setIsMenuOpen(false)}
-                    />
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute top-full mt-4 left-0 right-0 bg-rich-black border border-white/10 rounded-[2rem] overflow-hidden z-50 shadow-2xl backdrop-blur-xl"
-                    >
-                      {[
-                        { id: 'pending', label: 'Pending Requests', icon: Clock },
-                        { id: 'issued', label: 'Issued Tickets', icon: Ticket },
-                        { id: 'manual', label: 'Manual Issuance', icon: Plus },
-                        { id: 'scanner', label: 'QR Scanner', icon: QrCode },
-                        { id: 'inventory', label: 'Inventory Management', icon: Database },
-                        { id: 'access', label: 'Access Control', icon: Shield }
-                      ].map((tab) => (
-                        <button
-                          key={tab.id}
-                          onClick={() => {
-                            setActiveTab(tab.id as any);
-                            setIsMenuOpen(false);
-                          }}
-                          className={cn(
-                            "w-full flex items-center gap-4 px-8 py-5 text-[10px] font-black uppercase tracking-widest transition-all text-left hover:bg-white/5",
-                            activeTab === tab.id ? "bg-royal-gold/10 text-royal-gold" : "text-white/60 hover:text-white"
-                          )}
-                        >
-                          <tab.icon size={14} />
-                          {tab.label}
-                        </button>
-                      ))}
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
+            {/* Desktop Tabs - Hidden on Mobile */}
+            <div className="hidden md:flex items-center gap-2 bg-white/5 border border-white/10 p-1.5 rounded-full">
+              {[
+                { id: 'pending', label: 'Pending', icon: Clock },
+                { id: 'issued', label: 'Issued', icon: Ticket },
+                { id: 'manual', label: 'Manual', icon: Plus },
+                { id: 'scanner', label: 'Scanner', icon: QrCode },
+                { id: 'inventory', label: 'Inventory', icon: Database },
+                { id: 'access', label: 'Access', icon: Shield }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabChange(tab.id)}
+                  className={cn(
+                    "flex items-center gap-2 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all",
+                    activeTab === tab.id 
+                      ? "bg-royal-gold text-rich-black shadow-lg shadow-royal-gold/20" 
+                      : "text-white/60 hover:text-white hover:bg-white/5"
+                  )}
+                >
+                  <tab.icon size={12} />
+                  {tab.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>

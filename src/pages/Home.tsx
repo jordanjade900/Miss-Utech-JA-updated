@@ -8,6 +8,13 @@ import { RevealOverlay } from '../components/RevealOverlay';
 import { ElementModal, ElementType } from '../components/ElementModal';
 import { ImageModal } from '../components/ImageModal';
 
+const logo = '/miss-utech-logo.png';
+const elementsGroup = '/group-photo-elements.png';
+const fireDress = '/fire-dress.png';
+const earthDress = '/earth-dress.png';
+const waterDress = '/water-dress.png';
+const airDress = '/air-dress.png';
+
 import { Events } from './Events';
 import { Contestants } from './Contestants';
 import { TicketsContact } from './TicketsContact';
@@ -44,23 +51,10 @@ export const Home = () => {
             className="w-full max-w-5xl"
           >
             <img 
-              src="/Miss%20Utech%20Updated%20logo.png" 
+              src={logo} 
               alt="Miss UTech Logo" 
               className="w-full h-auto block mx-auto"
               referrerPolicy="no-referrer"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                const currentSrc = target.src;
-                
-                // If local logo fails, try the proxy
-                if (currentSrc.includes('Miss%20Utech%20Updated%20logo.png')) {
-                  target.src = "https://i0.wp.com/i.postimg.cc/MT2JpNKG/image.png";
-                } else if (currentSrc.includes('MT2JpNKG') && currentSrc.includes('i0.wp.com')) {
-                  target.src = "https://i0.wp.com/i.postimg.cc/85z1X2t7/image.png";
-                } else if (currentSrc.includes('85z1X2t7') && currentSrc.includes('i0.wp.com')) {
-                  target.src = "https://wsrv.nl/?url=https://i.postimg.cc/MT2JpNKG/image.png&w=1200&q=90";
-                }
-              }}
             />
           </motion.div>
         </div>
@@ -220,12 +214,12 @@ export const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            onClick={() => setFullscreenImage('/Group%20Photo%20all%20elements.png')}
+            onClick={() => setFullscreenImage(elementsGroup)}
             className="mb-24 relative rounded-[3rem] overflow-hidden group cursor-zoom-in"
           >
             <div className="absolute inset-0 bg-gradient-to-t from-rich-black via-rich-black/40 to-transparent z-10" />
             <img 
-              src="/Group%20Photo%20all%20elements.png" 
+              src={elementsGroup} 
               alt="The Elements" 
               className="w-full h-[400px] md:h-[600px] object-cover transition-transform duration-700 group-hover:scale-110"
               referrerPolicy="no-referrer"
@@ -256,7 +250,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/Fire%20Dress.png" 
+                  src={fireDress} 
                   alt="Fire" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
@@ -300,7 +294,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/Earth%20Dress.png" 
+                  src={earthDress} 
                   alt="Earth" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
@@ -344,7 +338,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/Water%20dress.png" 
+                  src={waterDress} 
                   alt="Water" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
@@ -388,7 +382,7 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/Air%20Dress.png" 
+                  src={airDress} 
                   alt="Air" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
