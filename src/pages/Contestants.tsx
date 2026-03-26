@@ -11,7 +11,7 @@ import { useAuth } from '../hooks/useAuth';
 import { handleFirestoreError, OperationType } from '../lib/firestore-errors';
 import { ImageModal } from '../components/ImageModal';
 
-const groupPhotoFull = '/miss-utech-group.jpeg';
+const groupPhotoFull = 'https://i0.wp.com/i.postimg.cc/mD8ZfL0p/image.png';
 
 interface Contestant {
   id: string;

@@ -8,12 +8,12 @@ import { RevealOverlay } from '../components/RevealOverlay';
 import { ElementModal, ElementType } from '../components/ElementModal';
 import { ImageModal } from '../components/ImageModal';
 
-const logo = '/miss-utech-logo.png';
-const elementsGroup = '/group-photo-elements.png';
-const fireDress = '/fire-dress.png';
-const earthDress = '/earth-dress.png';
-const waterDress = '/water-dress.png';
-const airDress = '/air-dress.png';
+const logo = 'https://i0.wp.com/i.postimg.cc/MT2JpNKG/image.png';
+const elementsGroup = 'https://i0.wp.com/i.postimg.cc/mD8ZfL0p/image.png';
+const fireDress = 'https://i0.wp.com/i.postimg.cc/q7SjG8mH/image.png';
+const earthDress = 'https://i0.wp.com/i.postimg.cc/vB0S1G7L/image.png';
+const waterDress = 'https://i0.wp.com/i.postimg.cc/85z1X2t7/image.png';
+const airDress = 'https://i0.wp.com/i.postimg.cc/MT2JpNKG/image.png';
 
 import { Events } from './Events';
 import { Contestants } from './Contestants';
