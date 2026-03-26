@@ -44,7 +44,7 @@ export const Home = () => {
             className="w-full max-w-5xl"
           >
             <img 
-              src="/Miss%20Utech%20Updated%20logo.png" 
+              src="/miss-utech-logo.png" 
               alt="Miss UTech Logo" 
               className="w-full h-auto block mx-auto"
               referrerPolicy="no-referrer"
@@ -53,7 +53,7 @@ export const Home = () => {
                 const currentSrc = target.src;
                 
                 // If local logo fails, try the proxy
-                if (currentSrc.includes('Miss%20Utech%20Updated%20logo.png')) {
+                if (currentSrc.includes('miss-utech-logo.png')) {
                   target.src = "https://i0.wp.com/i.postimg.cc/MT2JpNKG/image.png";
                 } else if (currentSrc.includes('MT2JpNKG') && currentSrc.includes('i0.wp.com')) {
                   target.src = "https://i0.wp.com/i.postimg.cc/85z1X2t7/image.png";
@@ -220,15 +220,21 @@ export const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            onClick={() => setFullscreenImage('/Group%20Photo%20all%20elements.png')}
+            onClick={() => setFullscreenImage('/group-photo-elements.png')}
             className="mb-24 relative rounded-[3rem] overflow-hidden group cursor-zoom-in"
           >
             <div className="absolute inset-0 bg-gradient-to-t from-rich-black via-rich-black/40 to-transparent z-10" />
             <img 
-              src="/Group%20Photo%20all%20elements.png" 
+              src="/group-photo-elements.png" 
               alt="The Elements" 
               className="w-full h-[400px] md:h-[600px] object-cover transition-transform duration-700 group-hover:scale-110"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                if (target.src.includes('group-photo-elements.png')) {
+                  target.src = "https://i0.wp.com/i.postimg.cc/mD8ZfL0p/image.png";
+                }
+              }}
             />
             <div className="absolute bottom-12 left-12 z-20 max-w-2xl">
               <div className="flex items-center gap-4 text-royal-gold mb-4">
@@ -256,10 +262,16 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/Fire%20Dress.png" 
+                  src="/fire-dress.png" 
                   alt="Fire" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (target.src.includes('fire-dress.png')) {
+                      target.src = "https://i0.wp.com/i.postimg.cc/q7SjG8mH/image.png";
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -300,10 +312,16 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/Earth%20Dress.png" 
+                  src="/earth-dress.png" 
                   alt="Earth" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (target.src.includes('earth-dress.png')) {
+                      target.src = "https://i0.wp.com/i.postimg.cc/vB0S1G7L/image.png";
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -344,10 +362,16 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/Water%20dress.png" 
+                  src="/water-dress.png" 
                   alt="Water" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (target.src.includes('water-dress.png')) {
+                      target.src = "https://i0.wp.com/i.postimg.cc/85z1X2t7/image.png";
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>
@@ -388,10 +412,16 @@ export const Home = () => {
             >
               <div className="absolute inset-0 z-0">
                 <img 
-                  src="/Air%20Dress.png" 
+                  src="/air-dress.png" 
                   alt="Air" 
                   className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (target.src.includes('air-dress.png')) {
+                      target.src = "https://i0.wp.com/i.postimg.cc/MT2JpNKG/image.png";
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               </div>

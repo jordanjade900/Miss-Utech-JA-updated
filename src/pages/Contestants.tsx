@@ -325,14 +325,20 @@ export const Contestants = ({ hideHeader = false }: { hideHeader?: boolean }) =>
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               className="relative group cursor-zoom-in"
-              onClick={() => setFullscreenImage('/Miss%20Utech%20group%20photo.jpeg')}
+              onClick={() => setFullscreenImage('/miss-utech-group.jpeg')}
             >
               <div className="absolute -inset-10 bg-royal-gold/5 blur-[100px] rounded-full group-hover:bg-royal-gold/10 transition-colors"></div>
               <img 
-                src="/Miss%20Utech%20group%20photo.jpeg" 
+                src="/miss-utech-group.jpeg" 
                 alt="The Essence of Royalty" 
                 className="w-full h-auto border border-white/10 relative z-10 grayscale group-hover:grayscale-0 transition-all duration-700 rounded-2xl"
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  if (target.src.includes('miss-utech-group.jpeg')) {
+                    target.src = "https://i0.wp.com/i.postimg.cc/mD8ZfL0p/image.png";
+                  }
+                }}
               />
             </motion.div>
           </div>
