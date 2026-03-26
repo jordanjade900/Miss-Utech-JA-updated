@@ -70,6 +70,24 @@ export const RevealOverlay: React.FC<RevealOverlayProps> = ({ children }) => {
             transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-rich-black overflow-hidden"
           >
+          {/* Admin Access Button */}
+          <div className="absolute top-8 right-8 z-50">
+            <button
+              onClick={handleAdminClick}
+              disabled={isLoggingIn}
+              className={cn(
+                "flex items-center gap-2 px-6 py-3 border rounded-full text-[10px] font-black tracking-[0.2em] uppercase transition-all",
+                isLoggingIn ? "opacity-50 cursor-not-allowed" : "",
+                isAdmin 
+                  ? "border-royal-gold text-royal-gold bg-royal-gold/10" 
+                  : "border-white/10 text-white hover:text-royal-gold hover:border-royal-gold/30"
+              )}
+            >
+              {isLoggingIn ? "Logging in..." : "Admin"}
+              {isAdmin && <span className="w-1.5 h-1.5 rounded-full bg-royal-gold animate-pulse" />}
+            </button>
+          </div>
+
           {/* Shader Background */}
           <div className="absolute inset-0 opacity-60 blur-3xl bg-rich-black">
             <ShaderAnimation />

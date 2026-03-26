@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
 import { collection, query, onSnapshot, doc, updateDoc, addDoc, serverTimestamp, deleteDoc, getDoc, writeBatch, limit, where, getDocs, setDoc } from 'firebase/firestore';
@@ -12,26 +11,13 @@ import emailjs from '@emailjs/browser';
 import { QRScanner } from '../components/QRScanner';
 
 export const AdminDashboard = () => {
-  const { user, isAdmin, login, loading: authLoading } = useAuth();
+  const { user, isAdmin, loading: authLoading } = useAuth();
   const [purchases, setPurchases] = useState<any[]>([]);
   const [issuedTickets, setIssuedTickets] = useState<any[]>([]);
   const [coronationInventory, setCoronationInventory] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState<'pending' | 'issued' | 'scanner' | 'inventory' | 'manual' | 'access'>((searchParams.get('tab') as any) || 'pending');
-
-  useEffect(() => {
-    const tab = searchParams.get('tab');
-    if (tab && ['pending', 'issued', 'scanner', 'inventory', 'manual', 'access'].includes(tab)) {
-      setActiveTab(tab as any);
-    }
-  }, [searchParams]);
-
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab as any);
-    setSearchParams({ tab });
-  };
-
+  const [activeTab, setActiveTab] = useState<'pending' | 'issued' | 'scanner' | 'inventory' | 'manual' | 'access'>('pending');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [adminEmails, setAdminEmails] = useState<any[]>([]);
   const [adminUsers, setAdminUsers] = useState<any[]>([]);
   const [newAdminEmail, setNewAdminEmail] = useState('');
@@ -651,41 +637,10 @@ export const AdminDashboard = () => {
   if (!isAdmin) {
     return (
       <div className="min-h-screen bg-rich-black flex items-center justify-center p-6">
-        <div className="text-center space-y-8 max-w-md">
-          <div className="relative inline-block">
-            <Shield size={80} className="text-red-500/20 mx-auto" />
-            <Shield size={40} className="text-red-500 absolute inset-0 m-auto" />
-          </div>
-          <div className="space-y-2">
-            <h1 className="text-4xl font-serif text-white">Access Denied</h1>
-            <p className="text-white/60 uppercase tracking-widest text-[10px] font-black">Administrative privileges required to view this page.</p>
-          </div>
-          
-          {!user ? (
-            <div className="pt-4">
-              <button
-                onClick={login}
-                className="w-full px-8 py-4 bg-royal-gold text-rich-black font-black text-xs tracking-[0.3em] uppercase hover:bg-white transition-colors"
-              >
-                Login as Admin
-              </button>
-              <p className="mt-4 text-[10px] text-white/40 uppercase tracking-widest">
-                Please sign in with an authorized administrator account.
-              </p>
-            </div>
-          ) : (
-            <div className="pt-4">
-              <p className="text-royal-gold text-xs font-bold tracking-widest mb-4">
-                Logged in as: {user.email}
-              </p>
-              <button
-                onClick={() => window.location.href = '/'}
-                className="w-full px-8 py-4 border border-white/10 text-white font-black text-xs tracking-[0.3em] uppercase hover:bg-white/5 transition-colors"
-              >
-                Return to Home
-              </button>
-            </div>
-          )}
+        <div className="text-center space-y-6">
+          <Shield size={64} className="text-red-500 mx-auto" />
+          <h1 className="text-4xl font-serif text-white">Access Denied</h1>
+          <p className="text-white uppercase tracking-widest text-xs">Admin privileges required.</p>
         </div>
       </div>
     );
@@ -715,30 +670,74 @@ export const AdminDashboard = () => {
               {isCreatingTest ? 'Creating...' : 'Create Test Purchase'}
             </button>
 
-            {/* Desktop Tabs - Hidden on Mobile */}
-            <div className="hidden md:flex items-center gap-2 bg-white/5 border border-white/10 p-1.5 rounded-full">
-              {[
-                { id: 'pending', label: 'Pending', icon: Clock },
-                { id: 'issued', label: 'Issued', icon: Ticket },
-                { id: 'manual', label: 'Manual', icon: Plus },
-                { id: 'scanner', label: 'Scanner', icon: QrCode },
-                { id: 'inventory', label: 'Inventory', icon: Database },
-                { id: 'access', label: 'Access', icon: Shield }
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => handleTabChange(tab.id)}
-                  className={cn(
-                    "flex items-center gap-2 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all",
-                    activeTab === tab.id 
-                      ? "bg-royal-gold text-rich-black shadow-lg shadow-royal-gold/20" 
-                      : "text-white/60 hover:text-white hover:bg-white/5"
-                  )}
-                >
-                  <tab.icon size={12} />
-                  {tab.label}
-                </button>
-              ))}
+            <div className="relative">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="flex items-center gap-4 px-8 py-4 bg-white/5 border border-white/10 rounded-full text-xs font-black uppercase tracking-[0.2em] text-white hover:bg-white/10 transition-all min-w-[240px] justify-between"
+              >
+                <div className="flex items-center gap-3">
+                  {(() => {
+                    const tabs = [
+                      { id: 'pending', label: 'Pending', icon: Clock },
+                      { id: 'issued', label: 'Issued', icon: Ticket },
+                      { id: 'manual', label: 'Manual Issue', icon: Plus },
+                      { id: 'scanner', label: 'Scanner', icon: QrCode },
+                      { id: 'inventory', label: 'Inventory', icon: Database },
+                      { id: 'access', label: 'Access', icon: Shield }
+                    ];
+                    const active = tabs.find(t => t.id === activeTab);
+                    const Icon = active?.icon || Clock;
+                    return (
+                      <>
+                        <Icon size={16} className="text-royal-gold" />
+                        <span>{active?.label}</span>
+                      </>
+                    );
+                  })()}
+                </div>
+                <ChevronDown size={16} className={cn("transition-transform duration-300", isMenuOpen && "rotate-180")} />
+              </button>
+
+              <AnimatePresence>
+                {isMenuOpen && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-40" 
+                      onClick={() => setIsMenuOpen(false)}
+                    />
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      className="absolute top-full mt-4 left-0 right-0 bg-rich-black border border-white/10 rounded-[2rem] overflow-hidden z-50 shadow-2xl backdrop-blur-xl"
+                    >
+                      {[
+                        { id: 'pending', label: 'Pending Requests', icon: Clock },
+                        { id: 'issued', label: 'Issued Tickets', icon: Ticket },
+                        { id: 'manual', label: 'Manual Issuance', icon: Plus },
+                        { id: 'scanner', label: 'QR Scanner', icon: QrCode },
+                        { id: 'inventory', label: 'Inventory Management', icon: Database },
+                        { id: 'access', label: 'Access Control', icon: Shield }
+                      ].map((tab) => (
+                        <button
+                          key={tab.id}
+                          onClick={() => {
+                            setActiveTab(tab.id as any);
+                            setIsMenuOpen(false);
+                          }}
+                          className={cn(
+                            "w-full flex items-center gap-4 px-8 py-5 text-[10px] font-black uppercase tracking-widest transition-all text-left hover:bg-white/5",
+                            activeTab === tab.id ? "bg-royal-gold/10 text-royal-gold" : "text-white/60 hover:text-white"
+                          )}
+                        >
+                          <tab.icon size={14} />
+                          {tab.label}
+                        </button>
+                      ))}
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </div>
