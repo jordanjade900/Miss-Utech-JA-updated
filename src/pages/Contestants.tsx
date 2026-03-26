@@ -334,7 +334,7 @@ export const Contestants = ({ hideHeader = false }: { hideHeader?: boolean }) =>
                 className="w-full h-auto border border-white/10 relative z-10 grayscale group-hover:grayscale-0 transition-all duration-700 rounded-2xl"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
-                  e.currentTarget.src = "https://i.postimg.cc/W1Yp7m3R/miss-utech-group.jpg";
+                  e.currentTarget.src = "/miss-utech-group.jpeg";
                 }}
               />
             </motion.div>
