@@ -11,7 +11,7 @@ import { useAuth } from '../hooks/useAuth';
 import { handleFirestoreError, OperationType } from '../lib/firestore-errors';
 import { ImageModal } from '../components/ImageModal';
 
-const groupPhotoFull = '/miss-utech-group.jpeg';
+const groupPhotoFull = 'https://res.cloudinary.com/dad155oxi/image/upload/v1774559967/miss-utech-group_n47jky.jpg';
 
 interface Contestant {
   id: string;

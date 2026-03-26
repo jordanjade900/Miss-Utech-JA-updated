@@ -9,11 +9,11 @@ import { ElementModal, ElementType } from '../components/ElementModal';
 import { ImageModal } from '../components/ImageModal';
 
 const logo = 'https://res.cloudinary.com/dad155oxi/image/upload/v1774559377/miss-utech-logo_oy78sf.jpg';
-const elementsGroup = '/group-photo-elements.png';
-const fireDress = '/fire-dress.png';
-const earthDress = '/earth-dress.png';
-const waterDress = '/water-dress.png';
-const airDress = '/air-dress.png';
+const elementsGroup = 'https://res.cloudinary.com/dad155oxi/image/upload/v1774559938/group-photo-elements_bvo3tb.jpg';
+const fireDress = 'https://res.cloudinary.com/dad155oxi/image/upload/v1774559953/fire-dress_ts1dht.jpg';
+const earthDress = 'https://res.cloudinary.com/dad155oxi/image/upload/v1774559953/earth-dress_x76wyo.jpg';
+const waterDress = 'https://res.cloudinary.com/dad155oxi/image/upload/v1774559978/water-dress_e1kuni.jpg';
+const airDress = 'https://res.cloudinary.com/dad155oxi/image/upload/v1774559952/air-dress_ct02j1.jpg';
 
 import { Events } from './Events';
 import { Contestants } from './Contestants';
